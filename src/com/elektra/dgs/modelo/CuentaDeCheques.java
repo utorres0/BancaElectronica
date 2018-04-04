@@ -12,13 +12,18 @@ import java.time.LocalDate;
  *
  * @author 180402 Grupo Salinas
  */
-public class CuentaDeCheques extends Cuenta{
+public class CuentaDeCheques extends Cuenta {
+
     private double costoManejoMensual;
 
     public CuentaDeCheques(double costoManejoMensual, int numCuenta, LocalDate fechaApertura, double saldoInicial, Estado estado) {
         super(numCuenta, fechaApertura, saldoInicial, estado);
         this.costoManejoMensual = costoManejoMensual;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "CuentaDeCheques: " + this.costoManejoMensual + super.toString(); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

@@ -13,33 +13,43 @@ import java.time.LocalDate;
  * @author 180402 Grupo Salinas
  */
 public abstract class Cuenta {
-    
+
     private final int numCuenta;
     private LocalDate fechaApertura;
     private LocalDate fechaCierre;
     private double saldo;
     private Estado estado;
-    
-    public Cuenta(int numCuenta, LocalDate fechaApertura, double saldoInicial, Estado estado){
-        this.numCuenta=numCuenta;
-        this.fechaApertura=fechaApertura;
-        this.saldo=saldoInicial;
-        this.estado=estado;
+
+    public Cuenta(int numCuenta, LocalDate fechaApertura, double saldoInicial, Estado estado) {
+        this.numCuenta = numCuenta;
+        this.fechaApertura = fechaApertura;
+        this.saldo = saldoInicial;
+        this.estado = estado;
     }
-    
-    public void abonar(double cantidad){
-    
+
+    public void abonar(double cantidad) {
+        this.saldo+=cantidad;
     }
-    
-    public void retirar(double cantidad){
-    
+
+    public void retirar(double cantidad) {
+        if(this.saldo>0){
+            this.saldo-=cantidad;
+        }else{
+            
+        }
     }
-    
-    public double consultarSaldo(){
+
+    public double consultarSaldo() {
         return this.saldo;
     }
-    
-    public void imprimirDatos(){
-    
+
+    public void imprimirDatos() {
+        System.out.println("Datos");
     }
+
+    @Override
+    public String toString() {
+        return "Cuenta{" + "numCuenta=" + numCuenta + ", fechaApertura=" + fechaApertura + ", fechaCierre=" + fechaCierre + ", saldo=" + saldo + ", estado=" + estado + '}';
+    }
+
 }

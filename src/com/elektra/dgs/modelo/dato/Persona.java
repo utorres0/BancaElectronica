@@ -18,14 +18,20 @@ public abstract class Persona {
     private String sApellido;
     private Domicilio domicilio;
     private LocalDate fechaNac;
+    private String user;
+    private String pass;
 
-    public Persona(String nombre, String pApellido, String sApellido, Domicilio domicilio, LocalDate fechaNac) {
+    public Persona(String nombre, String pApellido, String sApellido, Domicilio domicilio, LocalDate fechaNac, String user, String pass) {
         this.nombre = nombre;
         this.pApellido = pApellido;
         this.sApellido = sApellido;
         this.domicilio = domicilio;
         this.fechaNac = fechaNac;
+        this.user = user;
+        this.pass = pass;
     }
+
+   
     
     
     

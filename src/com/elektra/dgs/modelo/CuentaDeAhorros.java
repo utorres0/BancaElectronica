@@ -12,15 +12,21 @@ import java.time.LocalDate;
  *
  * @author 180402 Grupo Salinas
  */
-public class CuentaDeAhorros extends Cuenta{
-    
+public class CuentaDeAhorros extends Cuenta {
+
     private double tasaInteresAnual;
 
     public CuentaDeAhorros(double tasaInteresAnual, int numCuenta, LocalDate fechaApertura, double saldoInicial, Estado estado) {
         super(numCuenta, fechaApertura, saldoInicial, estado);
         this.tasaInteresAnual = tasaInteresAnual;
     }
-    
-    
-    
+
+    public void calcularIntereses() {
+
+    }
+
+    @Override
+    public String toString() {
+        return "CuentaDeAhorros: " + this.tasaInteresAnual + super.toString(); //To change body of generated methods, choose Tools | Templates.
+    }
 }

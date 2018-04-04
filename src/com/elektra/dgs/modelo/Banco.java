@@ -14,12 +14,26 @@ import java.util.ArrayList;
  * @author 180402 Grupo Salinas
  */
 public class Banco {
-    private static final Banco banco = new Banco();
-    private String nombre;
+
+    private static final Banco BANCO = new Banco();
+    private final String nombre = "BANCO NACIONAL";
     private Domicilio domicilio;
     private String rfc;
     private String telefono;
     private ArrayList<Cliente> clientes;
-    
-    private Banco(){}
+
+    private Banco() {
+    }
+
+    public static Banco getBanco() {
+        return Banco.BANCO;
+    }
+
+    public String obtenerMsgBienvenida() {
+        StringBuilder msg = new StringBuilder();
+        msg.append("|============================================|\n");
+        msg.append("|               " + this.nombre + "               |\n");
+        msg.append("|============================================|\n");
+        return msg.toString();
+    }
 }
