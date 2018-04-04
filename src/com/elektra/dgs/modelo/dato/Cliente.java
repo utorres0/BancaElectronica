@@ -19,12 +19,14 @@ public class Cliente extends Persona {
     private ArrayList<Cuenta> cuentas;
     private String rfc;
 
-    public Cliente(int numCliente, ArrayList<Cuenta> cuentas, String rfc, String nombre, String pApellido, String sApellido, Domicilio domicilio, LocalDate fechaNac) {
-        super(nombre, pApellido, sApellido, domicilio, fechaNac);
+    public Cliente(int numCliente, ArrayList<Cuenta> cuentas, String rfc, String nombre, String pApellido, String sApellido, Domicilio domicilio, LocalDate fechaNac, String user, String pass) {
+        super(nombre, pApellido, sApellido, domicilio, fechaNac, user, pass);
         this.numCliente = numCliente;
         this.cuentas = cuentas;
         this.rfc = rfc;
     }
+
+    
 
     public void crearCuentaAhorros(double saldoInicial, double tasaAnualInteres) {
 
