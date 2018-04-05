@@ -6,6 +6,8 @@
 package com.elektra.dgs.curso;
 
 import com.elektra.dgs.modelo.Banco;
+import com.elektra.dgs.modelo.LoginService;
+import com.elektra.dgs.modelo.Menu;
 import java.util.Scanner;
 
 /**
@@ -35,6 +37,7 @@ public class BancaElectronicaMain {
         //retiro de la CUENTA
         //TRANFERIR entre CUENTAS del mismo CLIENTE(deseable) //mejor de entre cuentas de el mismo u otro cliente.
 
+        Menu menu = new Menu();
         boolean running = true;
 
         while (running) {
@@ -47,36 +50,42 @@ public class BancaElectronicaMain {
             System.out.println("Ingrese pass: ");
             String pass = sc.nextLine();
 
-            if (user.equals("utorres0") && pass.equals("123")) {
+            LoginService ls = new LoginService();
+            if (user.equals("1") && pass.equals("1") && ls.getTipoUsuario()==1) {
+                boolean logged = true;
+                while (logged) {
 
-                StringBuilder menu = new StringBuilder();
-                menu.append("========== MENU EJECUTIVO ==========\n");
+                    menu.imprimirMenuGeneral();
+                    int option = sc.nextInt();
+                    switch (option) {
+                        case 1:
+                            menu.menuAltaCliente();
+                            break;
+                        case 2:
+                            menu.menuBajaCliente();
+                            break;
+                        case 3:
+                            menu.menuModificarCliente();
+                            break;
+                        case 4:
+                            menu.altaCuentaMenu();
+                            break;
+                        case 6:
+                            menu.consultaCuentaMenu();
+                            break;
+                        case 7:
+                            logged = false;
+                            break;
+                        default:
 
-                menu.append("Opción '1': Alta de Cliente.\n");
-                menu.append("Opción '2': Baja de Cliente.\n");
-                menu.append("Opción '3': Modificación de Cliente.\n");
-                menu.append("Opción '4': Alta de Cuenta.\n");
-                menu.append("Opción '5': Bloqueo de Cuenta.\n");
-                menu.append("Opción '6': Consulta de Cuenta.\n");
-                menu.append("Opción '7': Salir del sistema.\nSeleccione la opción deseada:");
-
-                System.out.println(menu.toString());
-                int option = sc.nextInt();
-                switch (option) {
-                    case 1:
-                        System.out.println("TEST");
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        running = false;
-                        break;
-                    default:
-
+                    }
                 }
+
             } else {
                 System.out.println("error");
             }
+            running = false;
+
         }
     }
 

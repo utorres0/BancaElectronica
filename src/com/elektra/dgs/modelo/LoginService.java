@@ -10,5 +10,10 @@ package com.elektra.dgs.modelo;
  * @author 180402 Grupo Salinas
  */
 public class LoginService {
+    private static final int EJECUTIVO = 1;
+    private static final int CLIENTE = 1;
     
+    public int getTipoUsuario(){
+        return EJECUTIVO;
+    } 
 }

@@ -28,15 +28,19 @@ public abstract class Cuenta {
     }
 
     public void abonar(double cantidad) {
-        this.saldo+=cantidad;
+        this.saldo += cantidad;
     }
 
     public void retirar(double cantidad) {
-        if(this.saldo>0){
-            this.saldo-=cantidad;
-        }else{
-            
+        if (this.saldo > 0) {
+            this.saldo -= cantidad;
+        } else {
+
         }
+    }
+
+    public int getNumCuenta() {
+        return numCuenta;
     }
 
     public double consultarSaldo() {

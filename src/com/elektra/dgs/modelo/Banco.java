@@ -23,6 +23,10 @@ public class Banco {
     private ArrayList<Cliente> clientes;
 
     private Banco() {
+        this.domicilio = new Domicilio("Calandrias", "298", "Juan Jose Rios", "Colima", 28984);
+        this.rfc = "BAN850120KIU";
+        this.telefono = "+523123391421";
+        this.clientes= new ArrayList<>();
     }
 
     public static Banco getBanco() {
@@ -36,4 +40,29 @@ public class Banco {
         msg.append("|============================================|\n");
         return msg.toString();
     }
+
+    public void agregarCliente(Cliente c) {
+        this.clientes.add(c);
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public Domicilio getDomicilio() {
+        return domicilio;
+    }
+
+    public String getRfc() {
+        return rfc;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public ArrayList<Cliente> getClientes() {
+        return clientes;
+    }
+
 }

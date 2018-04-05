@@ -15,8 +15,14 @@ public class Domicilio {
     private String colonia;
     private String estado;
     private int codigoPostal;
+
+    public Domicilio(String calle, String numero, String colonia, String estado, int codigoPostal) {
+        this.calle = calle;
+        this.numero = numero;
+        this.colonia = colonia;
+        this.estado = estado;
+        this.codigoPostal = codigoPostal;
+    }
     
-    public Domicilio(){
     
-    };
 }
