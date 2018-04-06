@@ -15,9 +15,10 @@ import java.time.LocalDate;
 public class CuentaDeAhorros extends Cuenta {
 
     private double tasaInteresAnual;
+    private static int indexNumCuenta=1;
 
-    public CuentaDeAhorros(double tasaInteresAnual, int numCuenta, LocalDate fechaApertura, double saldoInicial, Estado estado) {
-        super(numCuenta, fechaApertura, saldoInicial, estado);
+    public CuentaDeAhorros(double tasaInteresAnual, LocalDate fechaApertura, double saldoInicial, Estado estado) {
+        super(fechaApertura, saldoInicial, estado);
         this.tasaInteresAnual = tasaInteresAnual;
     }
 

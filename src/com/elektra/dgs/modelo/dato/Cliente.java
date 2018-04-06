@@ -13,6 +13,7 @@ import com.elektra.dgs.modelo.CuentaDeCheques;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Optional;
 
 /**
  *
@@ -51,17 +52,20 @@ public class Cliente extends Persona {
         return this.numCliente;
     }
 
-    public void setRfc(String rfc){
-        this.rfc=rfc;
-    }
-    public void crearCuentaAhorros(double saldoInicial, double tasaAnualInteres) {
-        CuentaDeAhorros nuevaCuenta = new CuentaDeAhorros(tasaAnualInteres, 12, LocalDate.now(), saldoInicial, Estado.ACTIVA);
-        this.cuentas.add(nuevaCuenta);
+    public void setRfc(String rfc) {
+        this.rfc = rfc;
     }
 
-    public void crearCuentaCheques(double saldoInicial, double comisionMensual) {
-        CuentaDeCheques nuevaCuenta = new CuentaDeCheques(comisionMensual, 15, LocalDate.now(), saldoInicial, Estado.ACTIVA);
+    public CuentaDeAhorros crearCuentaAhorros(double saldoInicial, double tasaAnualInteres) {
+        CuentaDeAhorros nuevaCuenta = new CuentaDeAhorros(tasaAnualInteres, LocalDate.now(), saldoInicial, Estado.ACTIVA);
         this.cuentas.add(nuevaCuenta);
+        return nuevaCuenta;
+    }
+
+    public CuentaDeCheques crearCuentaCheques(double saldoInicial, double comisionMensual) {
+        CuentaDeCheques nuevaCuenta = new CuentaDeCheques(comisionMensual, LocalDate.now(), saldoInicial, Estado.ACTIVA);
+        this.cuentas.add(nuevaCuenta);
+        return nuevaCuenta;
     }
 
     public void cancelarCuenta(int numCuenta) {
@@ -76,13 +80,18 @@ public class Cliente extends Persona {
         }
     }
 
+    /**
+     *
+     * @param numCuenta recibe el num de cuenta
+     * @return Cuenta encontrada.
+     * @throws CuentaInexistenteException Si no existe la cuenta, avienta una
+     * excepcion.
+     */
     public Cuenta consultarCuenta(int numCuenta) throws CuentaInexistenteException {
-        Iterator<Cuenta> iterator = this.cuentas.iterator();
-        while (iterator.hasNext()) {
-            Cuenta c = iterator.next();
-            if (c.getNumCuenta() == numCuenta) {
-                return c;
-            }
+
+        Optional<Cuenta> op = this.cuentas.stream().filter(cuenta -> cuenta.getNumCuenta() == numCuenta).findFirst();
+        if (op.isPresent()) {
+            return op.get();
         }
         throw new CuentaInexistenteException();
     }

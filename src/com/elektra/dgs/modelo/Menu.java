@@ -7,11 +7,16 @@ package com.elektra.dgs.modelo;
 
 import com.elektra.dgs.exception.CuentaInexistenteException;
 import com.elektra.dgs.modelo.dato.Cliente;
+import com.elektra.dgs.modelo.dato.Estado;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 /**
  *
@@ -24,7 +29,7 @@ public class Menu {
     private final Scanner sc = new Scanner(System.in);
     private final Banco b = Banco.getBanco();
 
-    public void imprimirMenuGeneral() {
+    public void imprimirMenuEjecutivo() {
         StringBuilder menu = new StringBuilder();
         menu.append("========== MENU EJECUTIVO ==========\n");
 
@@ -34,12 +39,28 @@ public class Menu {
         menu.append("Opción '4': Alta de Cuenta.\n");
         menu.append("Opción '5': Bloqueo de Cuenta.\n");
         menu.append("Opción '6': Consulta de Cuenta.\n");
-        menu.append("Opción '7': Salir del sistema.\nSeleccione la opción deseada:");
+        menu.append("Opción '7': Salir del sistema.\n");
+        menu.append("Opción '8': Cerrar sesión.\nSeleccione la opción deseada:");
 
         System.out.println(menu.toString());
     }
 
-    public void menuAltaCliente() {
+    public void imprimirMenuCliente() {
+        StringBuilder menu = new StringBuilder();
+        menu.append("========== MENU CLIENTE ==========\n");
+
+        menu.append("Opción '1': Consultar Listado de cuentas.\n");
+        menu.append("Opción '2': Estado de cuenta.\n");
+        menu.append("Opción '3': Deposito.\n");
+        menu.append("Opción '4': Retiro.\n");
+        menu.append("Opción '5': Transferir.\n");
+        menu.append("Opción '6': Salir del sistema.\n");
+        menu.append("Opción '7': Cerrar sesión.\nSeleccione la opción deseada:");
+
+        System.out.println(menu.toString());
+    }
+
+    public void altaClienteMenu() {
 
         System.out.println("Ingrese el nombre del cliente: ");
         String nombre = sc.nextLine();
@@ -61,9 +82,9 @@ public class Menu {
 
     }
 
-    public void menuBajaCliente() {
+    public void bajaClienteMenu() {
         System.out.println("Ingrese el numero de cliente: ");
-        int numCliente = sc.nextInt();
+        int numCliente = Integer.parseInt(sc.nextLine());
 
         Iterator<Cliente> iterator = b.getClientes().iterator();
 
@@ -170,69 +191,91 @@ public class Menu {
         sc.useLocale(Locale.US);
         System.out.println("Seleccione tipo de cuenta: ");
         System.out.println("1 para ahorros y 2 para cheques: ");
-        int caso = sc.nextInt();
+        int caso = Integer.parseInt(sc.nextLine());
 
         System.out.println("Ingrese el num de cliente: ");
-        int numCliente = sc.nextInt();
+        int numCliente = Integer.parseInt(sc.nextLine());
 
         System.out.println("Ingrese el saldo inicial: ");
-        double saldoInicial = sc.nextDouble();
+        double saldoInicial = Double.parseDouble(sc.nextLine());
 
-        Iterator<Cliente> iterator = b.getClientes().iterator();
+        ArrayList<Cliente> clientes = b.getClientes();
         switch (caso) {
             case 1:
 
                 System.out.println("Ingrese tasa de interes anual: ");
-                double tasaInteres = sc.nextDouble();
-
-                while (iterator.hasNext()) {
-                    Cliente c = iterator.next();
-                    if (c.getNumCliente() == numCliente) {
-                        c.crearCuentaAhorros(saldoInicial, tasaInteres);
-                        System.out.println("Cuenta creada");
-                    }
-                }
+                double tasaInteres = Double.parseDouble(sc.nextLine());
+                Cliente cliente1 = clientes.stream()
+                        .filter(c -> c.getNumCliente() == numCliente).findFirst().get();
+                System.out.println(cliente1.crearCuentaAhorros(saldoInicial, tasaInteres));
                 break;
+
             case 2:
+
                 System.out.println("Ingrese el costo de manejo mensual: ");
-                double costoManejoMensual = sc.nextDouble();
-                while (iterator.hasNext()) {
-                    Cliente c = iterator.next();
-                    if (c.getNumCliente() == numCliente) {
-                        c.crearCuentaCheques(saldoInicial, costoManejoMensual);
-                        System.out.println("Cuenta creada");
-                    }
-                }
+                double costoManejoMensual = Double.parseDouble(sc.nextLine());
+                Cliente cliente2 = clientes.stream()
+                        .filter(c -> c.getNumCliente() == numCliente).findFirst().get();
+
+                System.out.println(cliente2.crearCuentaCheques(saldoInicial, costoManejoMensual));
+
                 break;
         }
     }
 
+    /**
+     * Realiza la consulta de una sola cuenta no importando el tipo.
+     *
+     */
     public void consultaCuentaMenu() {
         System.out.println("Ingrese numero de cliente: ");
-        int numCliente = sc.nextInt();
+        int numCliente = Integer.parseInt(sc.nextLine());
 
         System.out.println("Ingrese numero de cuenta a consular");
-        int numCuenta = sc.nextInt();
+        int numCuenta = Integer.parseInt(sc.nextLine());
 
-        Iterator<Cliente> iterator = b.getClientes().iterator();
-        while (iterator.hasNext()) {
-            Cliente c = iterator.next();
-            if (c.getNumCliente() == numCliente) {
+        ArrayList<Cliente> clientes = b.getClientes();
+        Cliente cliente = clientes.stream()
+                .filter(c -> c.getNumCliente() == numCliente).findFirst().get();
 
-                try {
-                    Cuenta cuenta = c.consultarCuenta(numCuenta);
-                    if (cuenta instanceof CuentaDeAhorros) {
-                        CuentaDeAhorros cuentaAhorro = (CuentaDeAhorros) cuenta;
-                        System.out.println(cuenta.toString());
-                    } else {
-                        CuentaDeCheques cuentaCheques = (CuentaDeCheques) cuenta;
-                        System.out.println(cuenta.toString());
-                    }
-                } catch (CuentaInexistenteException e) {
-                    System.out.println("No se encontro la cuenta con ese numero");
-                }
-
-            }
+        try {
+            System.out.println(cliente.consultarCuenta(numCuenta));
+        } catch (CuentaInexistenteException e) {
+            System.out.println("No se encontro la cuenta: " + e.toString());
         }
+    }
+
+    public void bloqueoCuentaMenu() {
+        System.out.println("Ingrese numero de cliente: ");
+        int numCliente = Integer.parseInt(sc.nextLine());
+
+        System.out.println("Ingrese numero de cuenta a bloquear");
+        int numCuenta = Integer.parseInt(sc.nextLine());
+
+        ArrayList<Cliente> clientes = b.getClientes();
+        Cliente cliente = clientes.stream()
+                .filter(c -> c.getNumCliente() == numCliente).findFirst().get();
+
+        ArrayList<Cuenta> cuentas = cliente.consultarCuentasCliente();
+        Cuenta cuenta = cuentas.stream().filter(c -> c.getNumCuenta() == numCuenta).findFirst().get();
+
+        cuenta.setEstado(Estado.BLOQUEADA);
+        System.out.println("Cuenta bloqueada: " + cuenta.toString());
+    }
+
+    public void imprimeListadoCuenta(Cliente c) {
+        for (Cuenta cuenta : c.consultarCuentasCliente()) {
+            System.out.println(cuenta);
+        }
+    }
+
+    public void depositarACuenta(Cliente c, int numCuenta) {
+        /*try {
+            ArrayList<Cuenta> cuentas = c.consultarCuentasCliente();
+            if (cuentas.contains(c)) {
+            }
+        } catch (CuentaInexistenteException ex) {
+            System.out.println("Cuenta no existente");
+        }*/
     }
 }

@@ -16,8 +16,8 @@ public class CuentaDeCheques extends Cuenta {
 
     private double costoManejoMensual;
 
-    public CuentaDeCheques(double costoManejoMensual, int numCuenta, LocalDate fechaApertura, double saldoInicial, Estado estado) {
-        super(numCuenta, fechaApertura, saldoInicial, estado);
+    public CuentaDeCheques(double costoManejoMensual, LocalDate fechaApertura, double saldoInicial, Estado estado) {
+        super(fechaApertura, saldoInicial, estado);
         this.costoManejoMensual = costoManejoMensual;
     }
 

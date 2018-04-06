@@ -12,7 +12,7 @@ import java.time.LocalDate;
  * @author 180402 Grupo Salinas
  */
 public abstract class Persona {
-    
+
     private String nombre;
     private String pApellido;
     private String sApellido;
@@ -34,6 +34,22 @@ public abstract class Persona {
     @Override
     public String toString() {
         return "Persona{" + "nombre=" + nombre + ", pApellido=" + pApellido + ", sApellido=" + sApellido + ", domicilio=" + domicilio + ", fechaNac=" + fechaNac + ", user=" + user + ", pass=" + pass + '}';
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public String getNombre() {
@@ -75,11 +91,5 @@ public abstract class Persona {
     public void setFechaNac(LocalDate fechaNac) {
         this.fechaNac = fechaNac;
     }
-    
-    
-    
-   
-    
-    
-    
+
 }

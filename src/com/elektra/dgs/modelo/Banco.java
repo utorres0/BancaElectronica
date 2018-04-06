@@ -7,6 +7,7 @@ package com.elektra.dgs.modelo;
 
 import com.elektra.dgs.modelo.dato.Cliente;
 import com.elektra.dgs.modelo.dato.Domicilio;
+import com.elektra.dgs.modelo.dato.Ejecutivo;
 import java.util.ArrayList;
 
 /**
@@ -21,12 +22,15 @@ public class Banco {
     private String rfc;
     private String telefono;
     private ArrayList<Cliente> clientes;
+    private ArrayList<Ejecutivo> ejecutivos;
 
     private Banco() {
         this.domicilio = new Domicilio("Calandrias", "298", "Juan Jose Rios", "Colima", 28984);
         this.rfc = "BAN850120KIU";
         this.telefono = "+523123391421";
-        this.clientes= new ArrayList<>();
+        this.clientes = new ArrayList<>();
+        this.ejecutivos = new ArrayList<>();
+
     }
 
     public static Banco getBanco() {
@@ -43,6 +47,10 @@ public class Banco {
 
     public void agregarCliente(Cliente c) {
         this.clientes.add(c);
+    }
+
+    public void agregarEjecutivo(Ejecutivo e) {
+        this.ejecutivos.add(e);
     }
 
     public String getNombre() {
@@ -65,4 +73,7 @@ public class Banco {
         return clientes;
     }
 
+    public ArrayList<Ejecutivo> getEjecutivos() {
+        return ejecutivos;
+    }
 }

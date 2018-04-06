@@ -15,13 +15,14 @@ import java.time.LocalDate;
 public abstract class Cuenta {
 
     private final int numCuenta;
-    private LocalDate fechaApertura;
+    private final LocalDate fechaApertura;
     private LocalDate fechaCierre;
     private double saldo;
     private Estado estado;
+    private static int indexNumCuenta=0;
 
-    public Cuenta(int numCuenta, LocalDate fechaApertura, double saldoInicial, Estado estado) {
-        this.numCuenta = numCuenta;
+    public Cuenta(LocalDate fechaApertura, double saldoInicial, Estado estado) {
+        this.numCuenta = ++indexNumCuenta;
         this.fechaApertura = fechaApertura;
         this.saldo = saldoInicial;
         this.estado = estado;
@@ -37,6 +38,10 @@ public abstract class Cuenta {
         } else {
 
         }
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado=estado;
     }
 
     public int getNumCuenta() {
