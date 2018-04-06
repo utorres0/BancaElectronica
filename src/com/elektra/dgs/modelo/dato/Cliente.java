@@ -5,6 +5,7 @@
  */
 package com.elektra.dgs.modelo.dato;
 
+import com.elektra.dgs.exception.CuentaInexistenteException;
 import com.elektra.dgs.modelo.Banco;
 import com.elektra.dgs.modelo.Cuenta;
 import com.elektra.dgs.modelo.CuentaDeAhorros;
@@ -50,6 +51,9 @@ public class Cliente extends Persona {
         return this.numCliente;
     }
 
+    public void setRfc(String rfc){
+        this.rfc=rfc;
+    }
     public void crearCuentaAhorros(double saldoInicial, double tasaAnualInteres) {
         CuentaDeAhorros nuevaCuenta = new CuentaDeAhorros(tasaAnualInteres, 12, LocalDate.now(), saldoInicial, Estado.ACTIVA);
         this.cuentas.add(nuevaCuenta);
@@ -72,8 +76,15 @@ public class Cliente extends Persona {
         }
     }
 
-    public Cuenta consultarCuenta(int numCuenta) {
-        return null;
+    public Cuenta consultarCuenta(int numCuenta) throws CuentaInexistenteException {
+        Iterator<Cuenta> iterator = this.cuentas.iterator();
+        while (iterator.hasNext()) {
+            Cuenta c = iterator.next();
+            if (c.getNumCuenta() == numCuenta) {
+                return c;
+            }
+        }
+        throw new CuentaInexistenteException();
     }
 
     public ArrayList<Cuenta> consultarCuentasCliente() {

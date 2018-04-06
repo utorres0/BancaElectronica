@@ -5,6 +5,7 @@
  */
 package com.elektra.dgs.modelo;
 
+import com.elektra.dgs.exception.CuentaInexistenteException;
 import com.elektra.dgs.modelo.dato.Cliente;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -89,30 +90,78 @@ public class Menu {
         menu.append("Seleccione la opción deseada:");
 
         System.out.print(menu.toString());
-        int caso = sc.nextInt();
+        int caso = Integer.parseInt(sc.nextLine());
 
         System.out.println("Ingrese numero de cliente: ");
-
-        int numCliente = sc.nextInt();
+        int numCliente = Integer.parseInt(sc.nextLine());
+        Iterator<Cliente> iterator = b.getClientes().iterator();
 
         switch (caso) {
             case 1:
                 System.out.println("Ingrese el nuevo nombre: ");
 
-                String nombre2 = sc.nextLine();
-
-                Iterator<Cliente> iterator = b.getClientes().iterator();
-                System.out.println("nombre: " + nombre2);
-                /* while (iterator.hasNext()) {
+                String nombre = sc.nextLine();
+                while (iterator.hasNext()) {
                     Cliente clienteAModificar = iterator.next();
                     if (clienteAModificar.getNumCliente() == numCliente) {
                         clienteAModificar.setNombre(nombre);
                         System.out.println("Nombre del cliente modificado con éxito.");
-                        //break;
+                        break;
                     }
-                }*/
+                }
                 break;
             case 2:
+                System.out.println("Ingrese el primer apellido: ");
+
+                String pApellido = sc.nextLine();
+                while (iterator.hasNext()) {
+                    Cliente clienteAModificar = iterator.next();
+                    if (clienteAModificar.getNumCliente() == numCliente) {
+                        clienteAModificar.setpApellido(pApellido);
+                        System.out.println("Primer apellido del cliente modificado con éxito.");
+                        break;
+                    }
+                }
+                break;
+            case 3:
+                System.out.println("Ingrese el segundo apellido");
+
+                String sApellido = sc.nextLine();
+                while (iterator.hasNext()) {
+                    Cliente clienteAModificar = iterator.next();
+                    if (clienteAModificar.getNumCliente() == numCliente) {
+                        clienteAModificar.setsApellido(sApellido);
+                        System.out.println("Segundo apellido del cliente modificado con éxito.");
+                        break;
+                    }
+                }
+                break;
+            case 4:
+                System.out.println("Ingrese el nuevo RFC: ");
+
+                String rfc = sc.nextLine();
+                while (iterator.hasNext()) {
+                    Cliente clienteAModificar = iterator.next();
+                    if (clienteAModificar.getNumCliente() == numCliente) {
+                        clienteAModificar.setRfc(rfc);
+                        System.out.println("RFC del cliente modificado con éxito.");
+                        break;
+                    }
+                }
+                break;
+            case 6:
+                System.out.println("Ingrese la nueva fecha de nacimiento (Formato: AAAA-MM-DD): ");
+
+                LocalDate fechaNac = LocalDate.parse(sc.nextLine());
+                while (iterator.hasNext()) {
+                    Cliente clienteAModificar = iterator.next();
+                    if (clienteAModificar.getNumCliente() == numCliente) {
+                        clienteAModificar.setFechaNac(fechaNac);
+                        System.out.println("Fecha de nacimiento del cliente modificado con éxito.");
+                        break;
+                    }
+                }
+
                 break;
         }
     }
@@ -129,16 +178,28 @@ public class Menu {
         System.out.println("Ingrese el saldo inicial: ");
         double saldoInicial = sc.nextDouble();
 
-        System.out.println("Ingrese tasa de interes anual: ");
-        double tasaInteres = sc.nextDouble();
-
+        Iterator<Cliente> iterator = b.getClientes().iterator();
         switch (caso) {
             case 1:
-                Iterator<Cliente> iterator = b.getClientes().iterator();
+
+                System.out.println("Ingrese tasa de interes anual: ");
+                double tasaInteres = sc.nextDouble();
+
                 while (iterator.hasNext()) {
                     Cliente c = iterator.next();
                     if (c.getNumCliente() == numCliente) {
                         c.crearCuentaAhorros(saldoInicial, tasaInteres);
+                        System.out.println("Cuenta creada");
+                    }
+                }
+                break;
+            case 2:
+                System.out.println("Ingrese el costo de manejo mensual: ");
+                double costoManejoMensual = sc.nextDouble();
+                while (iterator.hasNext()) {
+                    Cliente c = iterator.next();
+                    if (c.getNumCliente() == numCliente) {
+                        c.crearCuentaCheques(saldoInicial, costoManejoMensual);
                         System.out.println("Cuenta creada");
                     }
                 }
@@ -157,13 +218,18 @@ public class Menu {
         while (iterator.hasNext()) {
             Cliente c = iterator.next();
             if (c.getNumCliente() == numCliente) {
-                Cuenta cuenta = c.consultarCuenta(numCuenta);
-                if (cuenta instanceof CuentaDeAhorros) {
-                    cuenta = (CuentaDeAhorros) cuenta;
-                    System.out.println(cuenta.toString());
-                } else {
-                    cuenta = (CuentaDeCheques) cuenta;
-                    System.out.println(cuenta.toString());
+
+                try {
+                    Cuenta cuenta = c.consultarCuenta(numCuenta);
+                    if (cuenta instanceof CuentaDeAhorros) {
+                        CuentaDeAhorros cuentaAhorro = (CuentaDeAhorros) cuenta;
+                        System.out.println(cuenta.toString());
+                    } else {
+                        CuentaDeCheques cuentaCheques = (CuentaDeCheques) cuenta;
+                        System.out.println(cuenta.toString());
+                    }
+                } catch (CuentaInexistenteException e) {
+                    System.out.println("No se encontro la cuenta con ese numero");
                 }
 
             }

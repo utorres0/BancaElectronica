@@ -27,6 +27,6 @@ public class CuentaDeAhorros extends Cuenta {
 
     @Override
     public String toString() {
-        return "CuentaDeAhorros: " + this.tasaInteresAnual + super.toString(); //To change body of generated methods, choose Tools | Templates.
+        return "CuentaDeAhorros: { tasaInteresAnual: " + this.tasaInteresAnual +"}"+ super.toString(); //To change body of generated methods, choose Tools | Templates.
     }
 }
